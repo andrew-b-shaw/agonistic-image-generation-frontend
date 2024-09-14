@@ -80,8 +80,8 @@ class Page extends React.Component<{}, PageState> {
                     this.setState({notesLoading: chunkJson['progress']});
                 }
             }
-        } catch (e) {
-            alert("Error fetching response!");
+        } catch (e: any) {
+            alert("Error fetching response! " + e.toString());
         }
     }
 
