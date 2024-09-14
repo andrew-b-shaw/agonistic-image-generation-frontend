@@ -20,7 +20,7 @@ export default function Header(props: HeaderProps) {
                 <Stack direction='row'>
                     <Tooltip title="Home">
                         <IconButton
-                            href={"" + process.env.NEXT_PUBLIC_FRONTEND_PATH}
+                            href={process.env.NEXT_PUBLIC_FRONTEND_PATH ? process.env.NEXT_PUBLIC_FRONTEND_PATH : "/.."}
                             color='secondary'
                             sx={{position: 'absolute', left: 0}}
                         >
