@@ -56,29 +56,38 @@ class Page extends React.Component<{}, PageState> {
 
             let notes: {[k: string]: Note} = {}
 
-            const decoder = new TextDecoder();
+            let decoder: TextDecoder = new TextDecoder();
+            let fullResponse: string = "";
+
             // @ts-ignore
             for await (let chunk of response.body) {
-                let chunkDecoded = decoder.decode(chunk, {stream: true});
-                console.log(chunkDecoded);
-                let chunkJson = JSON.parse(chunkDecoded);
-                if (chunkJson['result'] != null) {
-                    let suggestions: {[k: string]: Suggestion[]} = chunkJson['result'];
-                    for (let phrase in suggestions) {
-                        notes[phrase] = {
-                            phrase: phrase,
-                            annotation: "",
-                            disabled: false
-                        };
-                    }
+                let chunkDecoded: string = decoder.decode(chunk, {stream: true});
+                fullResponse += chunkDecoded;
+                console.log(fullResponse);
 
-                    this.setState({
-                        notes: notes,
-                        suggestions: suggestions,
-                        notesLoading: ""
-                    });
-                } else {
-                    this.setState({notesLoading: chunkJson['progress']});
+                try {
+                    let chunkJson = JSON.parse(fullResponse);
+                    if (chunkJson['result'] != null) {
+                        let suggestions: {[k: string]: Suggestion[]} = chunkJson['result'];
+                        for (let phrase in suggestions) {
+                            notes[phrase] = {
+                                phrase: phrase,
+                                annotation: "",
+                                disabled: false
+                            };
+                        }
+
+                        this.setState({
+                            notes: notes,
+                            suggestions: suggestions,
+                            notesLoading: ""
+                        });
+                    } else {
+                        this.setState({notesLoading: chunkJson['progress']});
+                    }
+                    fullResponse = "";
+                } catch (e) {
+                    console.log("Waiting for next chunk");
                 }
             }
         } catch (e: any) {
