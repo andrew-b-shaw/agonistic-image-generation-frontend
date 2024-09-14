@@ -42,9 +42,9 @@ class SuggestionsPanel extends React.Component<SuggestionProps, SuggestionsState
                         <Paper>
                             <Stack>
                                 {this.props.suggestions.slice(0, this.state.size).map((suggestion, key) => (
-                                    <ButtonBase onClick={() => this.props.onAccept(suggestion)} sx={{width: 1}}>
-                                        <div key={key} className="suggestion">
-                                            <div key={key} className="suggestion-body">
+                                    <ButtonBase key={key} onClick={() => this.props.onAccept(suggestion)} sx={{width: 1}}>
+                                        <div className="suggestion">
+                                            <div className="suggestion-body">
                                                 <Stack direction='row'>
                                                     <Typography variant='body2' sx={{textAlign: 'left', marginRight: '10px'}}>
                                                         {suggestion}

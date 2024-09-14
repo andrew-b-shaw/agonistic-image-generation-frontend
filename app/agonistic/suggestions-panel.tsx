@@ -48,7 +48,7 @@ class SuggestionsPanel extends React.Component<SuggestionsProps, SuggestionsStat
             <div id="suggestions-panel">
                 <Stack direction='row'>
                     <Typography variant='h5'>
-                        '{this.props.phrase}' Interpretations
+                        {"'" + this.props.phrase + "' Interpretations"}
                     </Typography>
                     <Tooltip title="Close">
                         <IconButton
