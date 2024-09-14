@@ -16,7 +16,7 @@ interface SuggestionsProps {
 }
 
 interface SuggestionsState {
-    expanded: string | false
+    expanded: number | false
     size: number
 }
 
@@ -30,10 +30,10 @@ class SuggestionsPanel extends React.Component<SuggestionsProps, SuggestionsStat
         };
     }
 
-    handleChange = (text: string) =>
+    handleChange = (key: number) =>
         (event: React.SyntheticEvent, isExpanded: boolean) => {
             this.setState({
-                expanded: isExpanded ? text : false
+                expanded: isExpanded ? key : false
             });
         };
 
@@ -65,8 +65,8 @@ class SuggestionsPanel extends React.Component<SuggestionsProps, SuggestionsStat
                     {this.props.suggestions.slice(0, this.state.size).map((suggestion, key) => (
                         <Accordion
                             key={key}
-                            expanded={this.state.expanded === suggestion.text}
-                            onChange={this.handleChange(suggestion.text)}
+                            expanded={this.state.expanded === key}
+                            onChange={this.handleChange(key)}
                         >
                             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
                                 <Typography variant='body1'>{suggestion.text}</Typography>
