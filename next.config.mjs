@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: "export"
+    output: "export",
+    basePath: "/agonistic-image-generation-frontend"
 };
 
 export default nextConfig;
