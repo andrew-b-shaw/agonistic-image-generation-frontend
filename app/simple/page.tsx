@@ -37,7 +37,7 @@ class Page extends React.Component<{}, PageState> {
             imageLoading: true
         });
 
-        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "simple-generate/" + prompt);
+        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/simple-generate/" + prompt);
         if (!response.ok) {
             alert("Error fetching response!");
         }

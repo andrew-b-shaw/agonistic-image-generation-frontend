@@ -37,7 +37,7 @@ class Page extends React.Component<{}, PageState> {
             imageLoading: true
         });
 
-        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "diverse-generate/" + prompt);
+        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/diverse-generate/" + prompt);
         if (!response.ok) {
             alert("Error fetching response!");
         }

@@ -40,7 +40,7 @@ class Page extends React.Component<{}, AppState> {
             suggestionsLoading: true
         });
 
-        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "suggest/" + text);
+        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/suggest/" + text);
         if (!response.ok) {
             alert("Error fetching response!");
         }
@@ -65,7 +65,7 @@ class Page extends React.Component<{}, AppState> {
             imageLoading: true
         });
 
-        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "simple-generate/" + this.state.prompt);
+        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/simple-generate/" + this.state.prompt);
         if (!response.ok) {
             alert("Error fetching response!");
         }

@@ -49,7 +49,7 @@ class Page extends React.Component<{}, PageState> {
         });
 
         try {
-            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "negotiate/" + text);
+            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/negotiate/" + text);
             if (!response.ok) {
                 alert("Error fetching response!");
             }
@@ -129,7 +129,7 @@ class Page extends React.Component<{}, PageState> {
         formData.append("prompt", this.state.prompt);
         formData.append("notes", JSON.stringify(this.state.notes));
 
-        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "agonistic-generate", {
+        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/agonistic-generate", {
             method: 'POST',
             body: formData
         });
