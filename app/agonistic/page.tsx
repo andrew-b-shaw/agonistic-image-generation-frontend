@@ -59,8 +59,9 @@ class Page extends React.Component<{}, PageState> {
             const decoder = new TextDecoder();
             // @ts-ignore
             for await (let chunk of response.body) {
-                let chunkJson = JSON.parse(decoder.decode(chunk, {stream: true}));
-                console.log(chunkJson);
+                let chunkDecoded = decoder.decode(chunk, {stream: true});
+                console.log(chunkDecoded);
+                let chunkJson = JSON.parse(chunkDecoded);
                 if (chunkJson['result'] != null) {
                     let suggestions: {[k: string]: Suggestion[]} = chunkJson['result'];
                     for (let phrase in suggestions) {
