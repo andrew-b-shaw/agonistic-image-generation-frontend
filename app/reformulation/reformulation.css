@@ -1,0 +1,51 @@
+@import '../globals.css';
+
+#reformulation-interface-grid {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    height: 75vh;
+}
+
+#suggestions-grid-item {
+    position: relative;
+    grid-column: 1;
+    height: 100%;
+}
+
+#suggestions-container {
+    height: 100%;
+    background: var(--background-color);
+    border-radius: 5px;
+}
+
+#suggestions-panel {
+    height: 90%;
+    padding: 30px;
+}
+
+.suggestion:hover {
+    background: var(--paper-color);
+}
+
+.suggestion-body {
+    padding: 10px;
+}
+
+#suggestions-list {
+    margin-top: 20px;
+    height: 85%;
+    overflow-y: auto;
+}
+
+#images-grid-item {
+    grid-column: 2;
+    height: 100%;
+}
+
+#images-container {
+    position: relative;
+    height: 100%;
+}
