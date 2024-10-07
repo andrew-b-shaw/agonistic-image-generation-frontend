@@ -24,7 +24,7 @@ export default function NotesPanel(props: NotesProps) {
                 </Typography>
                 <InfoTooltip
                     sx={{position: 'absolute', right: '30px'}}
-                    info="Some of the subjects from your prompt may contain ambiguity or unconscious bias. Enter a prompt in the field above and explore possible interpretations with the help of AI below. You can choose to keep your prompt as is or edit the suggestions after exploring. "
+                    info="Some of the subjects from your prompt may contain ambiguity or unconscious bias. Enter a prompt in the prompt entry box above and explore possible interpretations with the help of AI below. You can choose to keep your prompt as is or edit the suggestions after exploring. "
                 />
             </Stack>
             {Object.keys(props.notes).length > 0 &&

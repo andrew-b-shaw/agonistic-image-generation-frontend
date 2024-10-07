@@ -11,15 +11,22 @@ interface TextEntryFieldProps {
     onChange?: (text: string) => any
     value?: string
     sx?: any
+    multiline?: boolean
 }
 
 export default function TextEntryField(props: TextEntryFieldProps) {
     const [text, setText] = React.useState("");
 
     const handleChange = (event: any) => {
-        setText(event.target.value);
+        let input: string = event.target.value;
+        if (input.charAt(input.length - 1) === '\n') {
+            // handle adding new line after pressing enter (multiline case)
+            input = input.substring(0, input.length - 1);
+        }
+
+        setText(input);
         if (props.onChange) {
-            props.onChange(event.target.value);
+            props.onChange(input);
         }
     }
 
@@ -33,8 +40,9 @@ export default function TextEntryField(props: TextEntryFieldProps) {
                     }
                 }}
                 placeholder={props.placeholder}
-                value={props.value}
+                value={props.value ? props.value : text}  // need to add text here to handle multiline case in handleChange function
                 sx={props.sx}
+                multiline={props.multiline ? true : undefined}
                 endAdornment={
                     <InputAdornment position="end">
                         <Tooltip title={props.tooltip ? props.tooltip : "Next"}>

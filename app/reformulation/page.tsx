@@ -80,7 +80,14 @@ class Page extends React.Component<{}, AppState> {
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <Header title="Reformulation Interface" info="Instructions Here"/>
+                <Header title="Reformulation Interface" info="
+                    Type an image generation prompt into the prompt entry box at the top of the page,
+                    then press enter or click the button. The application will generate suggestions
+                    to help you reformulate your prompt by adding detail. You can continue to
+                    modify these suggestions in the prompt entry box after accepting them. Once you
+                    have explored the suggestions, click 'Generate Images' to generate images with your
+                    revised prompt.
+                "/>
                 <div className="interface-body" id="reformulation-interface-body">
                     <TextEntryField
                         placeholder="Enter prompt here..."
@@ -89,6 +96,7 @@ class Page extends React.Component<{}, AppState> {
                         tooltip="Reformulate"
                         value={this.state.prompt}
                         sx={{width: 1}}
+                        multiline
                     />
 
                     <div id="reformulation-interface-grid">
@@ -109,7 +117,7 @@ class Page extends React.Component<{}, AppState> {
                                         transform: 'translate(-50%, 0)'
                                     }}
                                 >
-                                    Generate
+                                    Generate Images
                                 </Button>
                                 <LoadingPanel show={this.state.suggestionsLoading}/>
                             </div>

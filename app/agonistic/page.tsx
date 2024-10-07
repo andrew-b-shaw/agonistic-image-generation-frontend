@@ -192,7 +192,15 @@ class Page extends React.Component<{}, PageState> {
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <Header title="Agonistic Interface" info="Instructions Here"/>
+                <Header title="Agonistic Interface" info="
+                    Type an image generation prompt into the prompt entry box at the top of the page,
+                    then press enter or click the button. The application will research the prompt using
+                    Wikipedia and generate possible interpreations of subjects in your prompt in the
+                    'Detected Subjects' section. You can explore these interpretations and their
+                    associated Wikipedia sources below, and modify them after clicking 'Accept.' After
+                    exploring interpretations, click 'Generate Images' to generate images with your
+                    revised prompt.
+                "/>
                 <div className="interface-body" id="agonistic-interface-body">
                     <div className="prompt-entry">
                         <TextEntryField
@@ -223,7 +231,7 @@ class Page extends React.Component<{}, PageState> {
                                         transform: 'translate(-50%, 0)'
                                     }}
                                 >
-                                    Generate
+                                    Generate Images
                                 </Button>
                                 <Collapse
                                     orientation='horizontal'

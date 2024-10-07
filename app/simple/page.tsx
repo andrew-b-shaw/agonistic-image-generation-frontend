@@ -52,7 +52,10 @@ class Page extends React.Component<{}, PageState> {
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <Header title="Simple Interface" info="Instructions Here"/>
+                <Header title="Simple Interface" info="
+                    Type an image generation prompt into the prompt entry box at the top of the page,
+                    then press enter or click the button to generate images.
+                "/>
                 <div className="interface-body" id="simple-interface-body">
                     <TextEntryField
                         placeholder="Enter prompt here..."

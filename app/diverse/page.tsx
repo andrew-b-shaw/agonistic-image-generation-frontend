@@ -52,7 +52,11 @@ class Page extends React.Component<{}, PageState> {
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <Header title="Diverse Interface" info="Instructions Here"/>
+                <Header title="Diverse Interface" info="
+                    Type an image generation prompt into the prompt entry box at the top of the page,
+                    then press enter or click the button to generate images. The application will
+                    automatically diversify your prompt after you submit it.
+                "/>
                 <div className="interface-body" id="diverse-interface-body">
                     <TextEntryField
                         placeholder="Enter prompt here..."
