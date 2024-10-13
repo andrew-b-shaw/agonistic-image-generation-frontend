@@ -6,6 +6,7 @@ import HelpIcon from '@mui/icons-material/Help';
 interface HeaderProps {
     title: string
     info: string
+    authenticationKey: string | null
     sx?: any
 }
 
@@ -13,6 +14,7 @@ export default function Header(props: HeaderProps) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const key: string = props.authenticationKey != null ? "?key=" + props.authenticationKey : "";
 
     return (
         <div className="header">
@@ -20,7 +22,7 @@ export default function Header(props: HeaderProps) {
                 <Stack direction='row'>
                     <Tooltip title="Home">
                         <IconButton
-                            href={process.env.NEXT_PUBLIC_FRONTEND_PATH ? process.env.NEXT_PUBLIC_FRONTEND_PATH : "/.."}
+                            href={process.env.NEXT_PUBLIC_FRONTEND_PATH + key}
                             color='secondary'
                             sx={{position: 'absolute', left: 0}}
                         >

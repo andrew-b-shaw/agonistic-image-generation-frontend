@@ -1,6 +1,6 @@
 'use client'
 
-import React from "react";
+import React, {useState} from "react";
 import TextEntryField from "../text-entry-field";
 import Header from "../header";
 import ImageGrid from "../image-grid";
@@ -8,71 +8,63 @@ import {theme} from "../theme";
 
 import {ThemeProvider} from "@mui/material";
 import LoadingPanel from "@/app/loading-panel";
+import {useSearchParams} from "next/navigation";
 
-interface PageState {
-    prompt: string
-    images: string[]
-    imageLoading: boolean
-    notesLoading: boolean
-}
+export default function Page({}) {
+    const searchParams = useSearchParams();
+    const key: string | null = searchParams.get('key');
+    const [prompt, setPrompt] = useState<string>("");
+    const [images, setImages] = useState<string[]>([]);
+    const [imagesLoading, setImagesLoading] = useState<boolean>(false);
 
-class Page extends React.Component<{}, PageState> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            prompt: "",
-            images: [],
-            imageLoading: false,
-            notesLoading: false,
-        }
+    const handlePromptAccept = async (text: string) => {
+        await handleGenerate(text);
     }
 
-    handlePromptAccept = async (text: string) => {
-        await this.handleGenerate(text);
-    }
-
-    handleGenerate = async (prompt: string) => {
-        this.setState({
-            images: [],
-            imageLoading: true
-        });
+    const handleGenerate = async (text: string) => {
+        setImages([]);
+        setImagesLoading(true);
+        setPrompt(text);
 
         try {
-            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/simple-generate/" + prompt);
+            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/simple-generate?" +
+                "prompt=" + text +
+                "&key=" + key
+            );
             if (!response.ok) {
                 alert("Error fetching response! " + await response.text());
             }
             let images: string[] = await response.json();
-            this.setState({images: images});
+            setImages(images);
         } catch (e: any) {
             alert("Error fetching response! " + e.toString());
         } finally {
-            this.setState({imageLoading: false});
+            setImagesLoading(false);
         }
     }
 
-    render() {
-        return (
-            <ThemeProvider theme={theme}>
-                <Header title="Simple Interface" info="
+    return (
+        <ThemeProvider theme={theme}>
+            <Header
+                title="Simple Interface"
+                authenticationKey={key}
+                info="
                     Type an image generation prompt into the prompt entry box at the top of the page,
                     then press enter or click the button to generate images.
-                "/>
-                <div className="interface-body" id="simple-interface-body">
-                    <TextEntryField
-                        placeholder="Enter prompt here..."
-                        onAccept={this.handlePromptAccept}
-                        tooltip="Generate"
-                        sx={{width: 1}}
-                    />
-                    <div className="image-grid-container">
-                        <ImageGrid images={this.state.images} prompt={this.state.prompt}/>
-                        <LoadingPanel show={this.state.imageLoading}/>
-                    </div>
+                "
+            />
+            <div className="interface-body" id="simple-interface-body">
+                <TextEntryField
+                    placeholder="Enter prompt here..."
+                    onAccept={handlePromptAccept}
+                    tooltip="Generate"
+                    sx={{width: 1}}
+                />
+                <div className="image-grid-container">
+                    <ImageGrid images={images} prompt={prompt}/>
+                    <LoadingPanel show={imagesLoading}/>
                 </div>
-            </ThemeProvider>
-        );
-    }
+            </div>
+        </ThemeProvider>
+    );
 }
-
-export default Page;

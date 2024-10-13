@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, {useState} from "react";
 import Note from "./note";
 import Suggestion from "./Suggestion";
 import Header from "../header";
@@ -13,43 +13,34 @@ import {theme} from "../theme";
 import "./agonistic.css";
 
 import {Button, Collapse, ThemeProvider} from '@mui/material';
+import {useSearchParams} from "next/navigation";
 
-interface PageState {
-    prompt: string
-    notes: {[k: string]: Note} // map of phrase (string) to array of Notes
-    suggestions: {[k: string]: Suggestion[]} // map of phrase (string) to array of Suggestions
-    focus: string
-    images: string[]
-    imageLoading: boolean
-    notesLoading: string
-}
 
-class Page extends React.Component<{}, PageState> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            prompt: "",
-            notes: {},
-            suggestions: {},
-            focus: "",
-            images: [],
-            imageLoading: false,
-            notesLoading: "",
-        }
-    }
+export default function Page({}) {
+    const searchParams = useSearchParams();
+    const key: string | null = searchParams.get('key');
+    const [prompt, setPrompt] = useState<string>("");
+    const [focus, setFocus] = useState<string>("");
+    const [notes, setNotes] = useState<{[k: string]: Note}>({});
+    const [suggestions, setSuggestions] = useState<{[k: string]: Suggestion[]}>({});
+    const [images, setImages] = useState<string[]>([]);
+    const [notesLoading, setNotesLoading] = useState<string>("");
+    const [imagesLoading, setImagesLoading] = useState<boolean>(false);
 
-    handlePromptAccept = async (text: string) => {
-        this.setState({
-            images: [],
-            focus: "",
-            notes: {},
-            suggestions: {},
-            notesLoading: "Interpreting",
-            prompt: text
-        });
+    let handlePromptAccept = async (text: string) => {
+        setPrompt(text);
+        setFocus("");
+        setNotes({});
+        setSuggestions({});
+        setImages([]);
+        setNotesLoading("Interpreting");
 
         try {
-            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/negotiate/" + text);
+            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/negotiate?" +
+                "prompt=" + text +
+                "&key=" + key
+            );
+
             if (!response.ok) {
                 alert("Error fetching response! " + await response.text());
                 return;
@@ -76,13 +67,10 @@ class Page extends React.Component<{}, PageState> {
                                 disabled: false
                             };
                         }
-
-                        this.setState({
-                            notes: notes,
-                            suggestions: suggestions
-                        });
+                        setNotes(notes);
+                        setSuggestions(suggestions);
                     } else {
-                        this.setState({notesLoading: chunkJson['progress']});
+                        setNotesLoading(chunkJson['progress']);
                     }
                     fullResponse = "";
                 } catch (e) {
@@ -92,53 +80,31 @@ class Page extends React.Component<{}, PageState> {
         } catch (e: any) {
             alert("Error fetching response! " + e.toString());
         } finally {
-            this.setState({notesLoading: ""});
+            setNotesLoading("");
         }
     }
 
-    handleNoteEdit = (phrase: string, annotation: string) => {
-        let notes = {...this.state.notes};
-        notes[phrase].annotation = annotation;
-        this.setState({notes: notes});
+    let handleNoteEdit = (phrase: string, annotation: string) => {
+        let newNotes = {...notes};
+        newNotes[phrase].annotation = annotation;
+        setNotes(newNotes);
     }
 
-    // handleNoteAdd = (phrase: string) => {
-    //     if (!Object.hasOwn(this.state.notes, phrase)) {
-    //         let notes = {...this.state.notes}
-    //         let suggestions = {...this.state.suggestions}
-    //
-    //         notes[phrase] = {
-    //             phrase: phrase,
-    //             annotation: "",
-    //             disabled: false
-    //         };
-    //         suggestions[phrase] = [];
-    //
-    //         this.setState({
-    //             notes: notes,
-    //             suggestions: suggestions
-    //         });
-    //     }
-    // }
-
-    handleSuggestionAccept = async (text: string) => {
-        let notes = {...this.state.notes};
-        notes[this.state.focus].annotation = text;
-        this.setState({
-            notes: notes,
-            focus: "",
-        })
+    let handleSuggestionAccept = async (text: string) => {
+        let newNotes = {...notes};
+        newNotes[focus].annotation = text;
+        setNotes(newNotes);
+        setFocus("");
     }
 
-    handleGenerate = async () => {
-        this.setState({
-            images: [],
-            imageLoading: true
-        });
+    let handleGenerate = async () => {
+        setImages([]);
+        setImagesLoading(true);
 
         let formData = new FormData();
-        formData.append("prompt", this.state.prompt);
-        formData.append("notes", JSON.stringify(this.state.notes));
+        formData.append("prompt", prompt);
+        formData.append("notes", JSON.stringify(notes));
+        formData.append("key", key != null ? key : "");
 
         try {
             let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/agonistic-generate", {
@@ -150,54 +116,20 @@ class Page extends React.Component<{}, PageState> {
                 return;
             }
             let images: string[] = await response.json();
-            this.setState({images: images});
+            setImages(images);
         } catch (e: any) {
             alert("Error fetching response! " + e.toString());
         } finally {
-            this.setState({imageLoading: false});
+            setImagesLoading(false);
         }
-
     }
 
-    // handleIterate = async () => {
-    //     let formData = new FormData();
-    //     formData.append("prompt", this.state.prompt);
-    //     formData.append("notes", JSON.stringify(this.state.notes));
-    //
-    //     let response = await fetch(BACKEND_URL + "iterate", {
-    //         method: 'POST',
-    //         body: formData
-    //     });
-    //
-    //     let notes = {...this.state.notes};
-    //     let suggestions = {...this.state.suggestions};
-    //     for (let phrase in Object.keys(notes)) {
-    //         notes[phrase].disabled = true;
-    //     }
-    //
-    //     let new_suggestions: {[k: string]: Suggestion[]} = await response.json();
-    //     for (let phrase in new_suggestions) {
-    //         if (!Object.hasOwn(this.state.notes, phrase)) {
-    //             this.state.notes[phrase] = {
-    //                 phrase: phrase,
-    //                 annotation: "",
-    //                 disabled: false
-    //             };
-    //             suggestions[phrase] = new_suggestions[phrase];
-    //         }
-    //     }
-    //
-    //     this.setState({
-    //         notes: {...this.state.notes},
-    //         suggestions: {...this.state.suggestions},
-    //         notesLoading: false
-    //     });
-    // }
-
-    render() {
-        return (
-            <ThemeProvider theme={theme}>
-                <Header title="Agonistic Interface" info="
+    return (
+        <ThemeProvider theme={theme}>
+            <Header
+                title="Agonistic Interface"
+                authenticationKey={key}
+                info="
                     Type an image generation prompt into the prompt entry box at the top of the page,
                     then press enter or click the button. The application will research the prompt using
                     Wikipedia and generate possible interpreations of subjects in your prompt in the
@@ -205,67 +137,65 @@ class Page extends React.Component<{}, PageState> {
                     associated Wikipedia sources below, and modify them after clicking 'Accept.' After
                     exploring interpretations, click 'Generate Images' to generate images with your
                     revised prompt.
-                "/>
-                <div className="interface-body" id="agonistic-interface-body">
-                    <div className="prompt-entry">
-                        <TextEntryField
-                            placeholder="Enter prompt here..."
-                            onAccept={this.handlePromptAccept}
-                            tooltip="Interpret"
-                            sx={{width: '100%'}}
-                        />
+                "
+            />
+            <div className="interface-body" id="agonistic-interface-body">
+                <div className="prompt-entry">
+                    <TextEntryField
+                        placeholder="Enter prompt here..."
+                        onAccept={handlePromptAccept}
+                        tooltip="Interpret"
+                        sx={{width: '100%'}}
+                    />
+                </div>
+
+                <div id="agonistic-interface-grid">
+                    <div id="notes-and-suggestions-grid-item">
+                        <div id="notes-and-suggestions-container">
+                            <NotesPanel
+                                notes={Object.values(notes)}
+                                onClick={(phrase) => setFocus(phrase)}
+                                onEdit={handleNoteEdit}
+                                loading={notesLoading}
+                            />
+                            <Button
+                                variant='contained'
+                                onClick={handleGenerate}
+                                disabled={prompt == ""}
+                                sx={{
+                                    position: 'absolute',
+                                    bottom: '30px',
+                                    left: '50%',
+                                    transform: 'translate(-50%, 0)'
+                                }}
+                            >
+                                Generate Images
+                            </Button>
+                            <Collapse
+                                orientation='horizontal'
+                                in={focus != ""}
+                                timeout='auto'
+                                sx={{position: 'absolute', top: 0, height: '100%'}}
+                            >
+                                <SuggestionsPanel
+                                    onClose={() => setFocus("")}
+                                    phrase={focus}
+                                    suggestions={focus != "" ? suggestions[focus] : []}
+                                    onAccept={handleSuggestionAccept}
+                                />
+                            </Collapse>
+                            <LoadingPanel show={notesLoading != ""} progress={notesLoading}/>
+                        </div>
                     </div>
 
-                    <div id="agonistic-interface-grid">
-                        <div id="notes-and-suggestions-grid-item">
-                            <div id="notes-and-suggestions-container">
-                                <NotesPanel
-                                    notes={Object.values(this.state.notes)}
-                                    onClick={(phrase) => this.setState({focus: phrase})}
-                                    onEdit={this.handleNoteEdit}
-                                    loading={this.state.notesLoading}
-                                />
-                                <Button
-                                    variant='contained'
-                                    onClick={this.handleGenerate}
-                                    disabled={this.state.prompt == ""}
-                                    sx={{
-                                        position: 'absolute',
-                                        bottom: '30px',
-                                        left: '50%',
-                                        transform: 'translate(-50%, 0)'
-                                    }}
-                                >
-                                    Generate Images
-                                </Button>
-                                <Collapse
-                                    orientation='horizontal'
-                                    in={this.state.focus != ""}
-                                    timeout='auto'
-                                    sx={{position: 'absolute', top: 0, height: '100%'}}
-                                >
-                                    <SuggestionsPanel
-                                        onClose={() => this.setState({focus: ""})}
-                                        phrase={this.state.focus}
-                                        suggestions={this.state.focus != "" ? this.state.suggestions[this.state.focus] : []}
-                                        onAccept={this.handleSuggestionAccept}
-                                    />
-                                </Collapse>
-                                <LoadingPanel show={this.state.notesLoading != ""} progress={this.state.notesLoading}/>
-                            </div>
-                        </div>
-
-                        <div id="images-grid-item">
-                            <div id="images-container">
-                                <ImageGrid images={this.state.images} prompt={this.state.prompt}/>
-                                <LoadingPanel show={this.state.imageLoading}/>
-                            </div>
+                    <div id="images-grid-item">
+                        <div id="images-container">
+                            <ImageGrid images={images} prompt={prompt}/>
+                            <LoadingPanel show={imagesLoading}/>
                         </div>
                     </div>
                 </div>
-            </ThemeProvider>
-        );
-    }
+            </div>
+        </ThemeProvider>
+    );
 }
-
-export default Page;
