@@ -37,16 +37,19 @@ class Page extends React.Component<{}, PageState> {
             imageLoading: true
         });
 
-        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/diverse-generate/" + prompt);
-        if (!response.ok) {
-            alert("Error fetching response!");
+        try {
+            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/diverse-generate/" + prompt);
+            if (!response.ok) {
+                alert("Error fetching response! " + await response.text());
+                return;
+            }
+            let images: string[] = await response.json();
+            this.setState({images: images});
+        } catch (e: any) {
+            alert("Error fetching response! " + e.toString());
+        } finally {
+            this.setState({imageLoading: false});
         }
-
-        let images: string[] = await response.json();
-        this.setState({
-            images: images,
-            imageLoading: false
-        });
     }
 
     render() {

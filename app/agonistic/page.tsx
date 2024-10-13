@@ -51,11 +51,11 @@ class Page extends React.Component<{}, PageState> {
         try {
             let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/negotiate/" + text);
             if (!response.ok) {
-                alert("Error fetching response!");
+                alert("Error fetching response! " + await response.text());
+                return;
             }
 
             let notes: {[k: string]: Note} = {}
-
             let decoder: TextDecoder = new TextDecoder();
             let fullResponse: string = "";
 
@@ -79,8 +79,7 @@ class Page extends React.Component<{}, PageState> {
 
                         this.setState({
                             notes: notes,
-                            suggestions: suggestions,
-                            notesLoading: ""
+                            suggestions: suggestions
                         });
                     } else {
                         this.setState({notesLoading: chunkJson['progress']});
@@ -92,6 +91,8 @@ class Page extends React.Component<{}, PageState> {
             }
         } catch (e: any) {
             alert("Error fetching response! " + e.toString());
+        } finally {
+            this.setState({notesLoading: ""});
         }
     }
 
@@ -139,19 +140,23 @@ class Page extends React.Component<{}, PageState> {
         formData.append("prompt", this.state.prompt);
         formData.append("notes", JSON.stringify(this.state.notes));
 
-        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/agonistic-generate", {
-            method: 'POST',
-            body: formData
-        });
-        if (!response.ok) {
-            alert("Error fetching response!");
+        try {
+            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/agonistic-generate", {
+                method: 'POST',
+                body: formData
+            });
+            if (!response.ok) {
+                alert("Error fetching response! " + await response.text());
+                return;
+            }
+            let images: string[] = await response.json();
+            this.setState({images: images});
+        } catch (e: any) {
+            alert("Error fetching response! " + e.toString());
+        } finally {
+            this.setState({imageLoading: false});
         }
 
-        let images: string[] = await response.json();
-        this.setState({
-            images: images,
-            imageLoading: false
-        });
     }
 
     // handleIterate = async () => {
