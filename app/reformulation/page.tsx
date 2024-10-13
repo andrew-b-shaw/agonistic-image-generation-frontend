@@ -17,8 +17,8 @@ export default function Page({}) {
     const searchParams = useSearchParams();
     const key: string | null = searchParams.get('key');
     const [prompt, setPrompt] = useState<string>("");
-    const [images, setImages] = useState<string[]>([]);
     const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [images, setImages] = useState<string[]>([]);
     const [imagesLoading, setImagesLoading] = useState<boolean>(false);
     const [suggestionsLoading, setSuggestionsLoading] = useState<boolean>(false);
 
