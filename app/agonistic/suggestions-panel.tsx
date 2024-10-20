@@ -1,7 +1,7 @@
 'use client'
 
 import React from "react";
-import Suggestion from "./Suggestion";
+import Suggestion from "./suggestion";
 import TextEntryField from "../text-entry-field";
 
 import {Typography, Accordion, AccordionSummary, AccordionDetails, Button, Link, IconButton, Divider, Stack, Tooltip} from "@mui/material";
@@ -69,7 +69,14 @@ class SuggestionsPanel extends React.Component<SuggestionsProps, SuggestionsStat
                             onChange={this.handleChange(key)}
                         >
                             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                                <Typography variant='body1'>{suggestion.text}</Typography>
+                                <Stack direction='row'>
+                                    <div className="suggestion-thumbnail-container">
+                                        <img className="suggestion-thumbnail" src={suggestion.thumbnail} alt=""/>
+                                    </div>
+                                    <div className="suggestion-title-container">
+                                        <Typography variant='body1'>{suggestion.text}</Typography>
+                                    </div>
+                                </Stack>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography variant='body1' color='text.secondary'>

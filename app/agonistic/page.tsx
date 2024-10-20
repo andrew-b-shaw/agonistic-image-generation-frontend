@@ -2,7 +2,7 @@
 
 import React, {useState} from "react";
 import Note from "./note";
-import Suggestion from "./Suggestion";
+import Suggestion from "./suggestion";
 import Header from "../header";
 import SuggestionsPanel from "./suggestions-panel";
 import NotesPanel from "./notes-panel";

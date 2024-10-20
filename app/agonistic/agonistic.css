@@ -65,4 +65,16 @@
     height: 100%;
 }
 
+.suggestion-thumbnail-container {
+    width: 70px;
+    margin-right: 10px;
+}
 
+.suggestion-thumbnail {
+    width: 100%;
+    object-fit: contain;
+}
+
+.suggestion-title-container {
+    width: calc(100% - 80px);
+}
