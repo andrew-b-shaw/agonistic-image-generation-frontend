@@ -7,35 +7,32 @@ import {useSearchParams} from "next/navigation";
 
 export default function Page({}) {
     const searchParams = useSearchParams();
-    const [authentication, setAuthentication] = useState("");
     let count = useRef(0);
+    let key: string | null = searchParams.get('key');
+    let authentication: string = key != null ? "?key=" + key : "";
 
-    useEffect(() => {
-        const authenticate = async () => {
-            let key: string | null = searchParams.get('key');
-            try {
-                if (key != null) {
-                    setAuthentication("?key=" + key);
-                } else {
-                    key = prompt("Enter Key:");
-                    let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/authenticate/" + key);
-                    if (response.ok) {
-                        alert("Successfully authenticated!")
-                        setAuthentication("?key=" + key);
-                    } else {
-                        alert("Not authenticated!");
-                    }
-                }
-            } catch (e: any) {
-                alert ("Error fetching response! " + e.toString());
+    const authenticate = async () => {
+        try {
+            key = prompt("Enter key:");
+            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/authenticate/" + key);
+            if (response.ok) {
+                alert("Successfully authenticated!")
+                authentication = "?key=" + key;
+                location.href = process.env.NEXT_PUBLIC_FRONTEND_PATH + authentication;
+            } else {
+                alert("Not authenticated!");
             }
+        } catch (e: any) {
+            alert("Error fetching response! " + e.toString());
         }
+    }
 
-        if (count.current == 0) {
+    useEffect( () => {
+        if (key == null && count.current == 0) {
             count.current = 1;
             authenticate();
         }
-    })
+    });
 
     return (
         <ThemeProvider theme={theme}>
