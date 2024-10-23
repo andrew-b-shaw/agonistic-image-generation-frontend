@@ -17,7 +17,6 @@ interface SuggestionsProps {
 
 interface SuggestionsState {
     expanded: number | false
-    size: number
 }
 
 class SuggestionsPanel extends React.Component<SuggestionsProps, SuggestionsState> {
@@ -25,8 +24,7 @@ class SuggestionsPanel extends React.Component<SuggestionsProps, SuggestionsStat
     constructor(props: any) {
         super(props);
         this.state = {
-            expanded: false,
-            size: 5
+            expanded: false
         };
     }
 
@@ -62,7 +60,7 @@ class SuggestionsPanel extends React.Component<SuggestionsProps, SuggestionsStat
 
                 <div id="suggestions-accordion">
                     <Divider/>
-                    {this.props.suggestions.slice(0, this.state.size).map((suggestion, key) => (
+                    {this.props.suggestions.map((suggestion, key) => (
                         <Accordion
                             key={key}
                             expanded={this.state.expanded === key}
@@ -75,6 +73,7 @@ class SuggestionsPanel extends React.Component<SuggestionsProps, SuggestionsStat
                                     </div>
                                     <div className="suggestion-title-container">
                                         <Typography variant='body1'>{suggestion.text}</Typography>
+                                        <Typography variant='body2' color='text.secondary' sx={{'pt': '10px'}}>Source: {suggestion.source}</Typography>
                                     </div>
                                 </Stack>
                             </AccordionSummary>
@@ -99,12 +98,6 @@ class SuggestionsPanel extends React.Component<SuggestionsProps, SuggestionsStat
                             </AccordionDetails>
                         </Accordion>
                     ))}
-                    <Button
-                        onClick={() => this.setState({size: this.state.size + 5})}
-                        disabled={this.state.size >= this.props.suggestions.length}
-                    >
-                        See More
-                    </Button>
                 </div>
 
                 <TextEntryField
