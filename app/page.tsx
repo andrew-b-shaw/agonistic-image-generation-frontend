@@ -37,10 +37,10 @@ export default function Page({}) {
     return (
         <ThemeProvider theme={theme}>
             <div style={{position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)"}}>
-                <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/simple" + authentication} size='large'>Simple</Button>
-                <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/diverse" + authentication} size='large'>Diverse</Button>
-                <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/reformulation" + authentication} size='large'>Reformulation</Button>
-                <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/agonistic" + authentication} size='large'>Agonistic</Button>
+                <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/simple" + authentication} size='large'>Interface A</Button>
+                <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/diverse" + authentication} size='large'>Interface B</Button>
+                <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/reformulation" + authentication} size='large'>Interface C</Button>
+                <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/agonistic" + authentication} size='large'>Interface D</Button>
             </div>
         </ThemeProvider>
     );

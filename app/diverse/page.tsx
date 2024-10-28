@@ -43,7 +43,7 @@ export default function Page({}) {
     return (
         <ThemeProvider theme={theme}>
             <Header
-                title="Diverse Interface"
+                title="Interface B"
                 authenticationKey={key}
                 info="
                     Type an image generation prompt into the prompt entry box at the top of the page,

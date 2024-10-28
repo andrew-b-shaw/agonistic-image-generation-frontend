@@ -46,7 +46,7 @@ export default function Page({}) {
     return (
         <ThemeProvider theme={theme}>
             <Header
-                title="Simple Interface"
+                title="Interface A"
                 authenticationKey={key}
                 info="
                     Type an image generation prompt into the prompt entry box at the top of the page,

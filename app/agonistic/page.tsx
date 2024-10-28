@@ -127,7 +127,7 @@ export default function Page({}) {
     return (
         <ThemeProvider theme={theme}>
             <Header
-                title="Agonistic Interface"
+                title="Interface D"
                 authenticationKey={key}
                 info="
                     Type an image generation prompt into the prompt entry box at the top of the page,
