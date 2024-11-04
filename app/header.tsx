@@ -29,7 +29,7 @@ export default function Header(props: HeaderProps) {
                             <HomeIcon/>
                         </IconButton>
                     </Tooltip>
-                    <Typography variant='h1' sx={{margin: 'auto'}}>
+                    <Typography variant='h1' sx={{margin: 'auto', color: 'white'}}>
                         {props.title}
                     </Typography>
                     <Tooltip title="More Info">
