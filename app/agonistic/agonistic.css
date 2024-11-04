@@ -49,6 +49,13 @@
     border-left: 10px solid var(--primary-color);
 }
 
+#suggestions-panel-heading {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 15px)
+}
+
 #suggestions-accordion {
     height: 80%;
     overflow-y: auto;
@@ -77,4 +84,8 @@
 
 .suggestion-title-container {
     width: calc(100% - 150px);
+}
+
+.MuiCollapse-wrapperInner {
+    max-width: 100%;
 }

@@ -2,9 +2,9 @@
 
 import React, {useState} from "react";
 import Note from "./note";
-import Suggestion from "./suggestion";
+import Interpretation from "./interpretation";
 import Header from "../header";
-import SuggestionsPanel from "./suggestions-panel";
+import InterpretationsPanel from "./interpretations-panel";
 import NotesPanel from "./notes-panel";
 import LoadingPanel from "../loading-panel";
 import TextEntryField from "../text-entry-field";
@@ -22,7 +22,7 @@ export default function Page({}) {
     const [prompt, setPrompt] = useState<string>("");
     const [focus, setFocus] = useState<string>("");
     const [notes, setNotes] = useState<{[k: string]: Note}>({});
-    const [suggestions, setSuggestions] = useState<{[k: string]: Suggestion[]}>({});
+    const [suggestions, setSuggestions] = useState<{[k: string]: Interpretation[]}>({});
     const [images, setImages] = useState<string[]>([]);
     const [notesLoading, setNotesLoading] = useState<string>("");
     const [imagesLoading, setImagesLoading] = useState<boolean>(false);
@@ -59,7 +59,7 @@ export default function Page({}) {
                 try {
                     let chunkJson = JSON.parse(fullResponse);
                     if (chunkJson['result'] != null) {
-                        let suggestions: {[k: string]: Suggestion[]} = chunkJson['result'];
+                        let suggestions: {[k: string]: Interpretation[]} = chunkJson['result'];
                         for (let phrase in suggestions) {
                             notes[phrase] = {
                                 phrase: phrase,
@@ -175,12 +175,18 @@ export default function Page({}) {
                                 orientation='horizontal'
                                 in={focus != ""}
                                 timeout='auto'
-                                sx={{position: 'absolute', top: 0, height: '100%'}}
+                                sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    height: '100%',
+                                    maxWidth: "100%",
+                                    display: 'block'
+                                }}
                             >
-                                <SuggestionsPanel
+                                <InterpretationsPanel
                                     onClose={() => setFocus("")}
                                     phrase={focus}
-                                    suggestions={focus != "" ? suggestions[focus] : []}
+                                    interpretations={focus != "" ? suggestions[focus] : []}
                                     onAccept={handleSuggestionAccept}
                                 />
                             </Collapse>

@@ -14,24 +14,29 @@ export const theme = createTheme({
         h1: {
             fontFamily: '"GeneralSans-Light"',
             fontSize: '1.75rem',
-            letterSpacing: 1
+            letterSpacing: 1,
+            color: 'black'
         },
         h4: {
             fontFamily: '"GeneralSans-Medium"',
             fontSize: '1.75rem',
-            letterSpacing: 1
+            letterSpacing: 1,
+            color: 'black'
         },
         h5: {
             fontFamily: '"GeneralSans-Medium"',
-            letterSpacing: 0.75
+            letterSpacing: 0.75,
+            color: 'black'
         },
         h6: {
             fontFamily: '"GeneralSans-Medium"',
-            fontWeight: 400
+            fontWeight: 400,
+            color: 'black'
         },
         button: {
             fontFamily: '"GeneralSans-Medium"',
-            fontWeight: 400
+            fontWeight: 400,
+            color: 'white'
         },
         subtitle1: {
             fontFamily: '"GeneralSans-Regular"'

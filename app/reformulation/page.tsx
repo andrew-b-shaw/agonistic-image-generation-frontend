@@ -9,15 +9,16 @@ import LoadingPanel from "../loading-panel"
 import {theme} from "../theme";
 import "./reformulation.css"
 
-import {Button, ThemeProvider} from "@mui/material";
+import {Button, Stack, ThemeProvider} from "@mui/material";
 import {useSearchParams} from "next/navigation";
+import Suggestion from "@/app/reformulation/Suggestion";
 
 
 export default function Page({}) {
     const searchParams = useSearchParams();
     const key: string | null = searchParams.get('key');
     const [prompt, setPrompt] = useState<string>("");
-    const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
     const [images, setImages] = useState<string[]>([]);
     const [imagesLoading, setImagesLoading] = useState<boolean>(false);
     const [suggestionsLoading, setSuggestionsLoading] = useState<boolean>(false);
@@ -36,7 +37,7 @@ export default function Page({}) {
                 alert("Error fetching response! " + await response.text());
                 return;
             }
-            let suggestions: string[] = await response.json();
+            let suggestions: Suggestion[] = await response.json();
             setSuggestions(suggestions);
         } catch (e: any) {
             alert("Error fetching response! " + e.toString());
@@ -86,15 +87,26 @@ export default function Page({}) {
                 "
             />
             <div className="interface-body" id="reformulation-interface-body">
-                <TextEntryField
-                    placeholder="Enter prompt here..."
-                    onChange={(text) =>setPrompt(text)}
-                    onAccept={handlePromptAccept}
-                    tooltip="Reformulate"
-                    value={prompt}
-                    sx={{width: 1}}
-                    multiline
-                />
+                <Stack direction='row' sx={{position: 'relative'}}>
+                    <TextEntryField
+                        placeholder="Enter prompt here..."
+                        onChange={(text) =>setPrompt(text)}
+                        onAccept={handlePromptAccept}
+                        tooltip="Reformulate"
+                        value={prompt}
+                        sx={{width: 1, mr: "5px"}}
+                        multiline
+                    />
+                    <div style={{width: '200px'}}/>
+                    <Button
+                        variant='contained'
+                        onClick={handleGenerate}
+                        disabled={prompt === ""}
+                        sx={{height: "56px", top: "50%", position: 'absolute', right: 0, transform: "translateY(-50%)"}}
+                    >
+                        Generate Images
+                    </Button>
+                </Stack>
 
                 <div id="reformulation-interface-grid">
                     <div id="suggestions-grid-item">
@@ -103,19 +115,6 @@ export default function Page({}) {
                                 suggestions={suggestions.length > 0 ? suggestions : []}
                                 onAccept={handleSuggestionAccept}
                             />
-                            <Button
-                                variant='contained'
-                                onClick={handleGenerate}
-                                disabled={prompt === ""}
-                                sx={{
-                                    position: 'absolute',
-                                    bottom: '30px',
-                                    left: '50%',
-                                    transform: 'translate(-50%, 0)'
-                                }}
-                            >
-                                Generate Images
-                            </Button>
                             <LoadingPanel show={suggestionsLoading}/>
                         </div>
                     </div>
