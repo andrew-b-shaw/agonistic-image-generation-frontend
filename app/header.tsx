@@ -11,9 +11,6 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const key: string = props.authenticationKey != null ? "?key=" + props.authenticationKey : "";
 
     return (
@@ -34,7 +31,7 @@ export default function Header(props: HeaderProps) {
                     </Typography>
                     <Tooltip title="More Info">
                         <IconButton
-                            onClick={handleOpen}
+                            onClick={() => window.open(props.info)}
                             color='secondary'
                             sx={{position: 'absolute', right: 0}}
                         >
@@ -43,23 +40,6 @@ export default function Header(props: HeaderProps) {
                     </Tooltip>
                 </Stack>
             </div>
-
-            <Modal open={open} onClose={handleClose}>
-                <Box sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 400,
-                    background: 'white',
-                    boxShadow: 24,
-                    p: 4
-                }}>
-                    <Typography>
-                        {props.info}
-                    </Typography>
-                </Box>
-            </Modal>
         </div>
     );
 }

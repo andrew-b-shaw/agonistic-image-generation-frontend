@@ -45,11 +45,7 @@ export default function Page({}) {
             <Header
                 title="Interface B"
                 authenticationKey={key}
-                info="
-                    Type an image generation prompt into the prompt entry box at the top of the page,
-                    then press enter or click the button to generate images. The application will
-                    automatically diversify your prompt after you submit it.
-                "
+                info="https://docs.google.com/document/d/1SUolKv9mZfkSpp9gDjBgpipmz8M8FceDTVpyYtsItlA/edit?usp=drive_link"
             />
             <div className="interface-body" id="diverse-interface-body">
                 <TextEntryField

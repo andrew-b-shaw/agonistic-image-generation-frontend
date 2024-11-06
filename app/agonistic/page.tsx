@@ -129,15 +129,7 @@ export default function Page({}) {
             <Header
                 title="Interface D"
                 authenticationKey={key}
-                info="
-                    Type an image generation prompt into the prompt entry box at the top of the page,
-                    then press enter or click the button. The application will research the prompt using
-                    Wikipedia and generate possible interpreations of subjects in your prompt in the
-                    'Detected Subjects' section. You can explore these interpretations and their
-                    associated Wikipedia sources below, and modify them after clicking 'Accept.' After
-                    exploring interpretations, click 'Generate Images' to generate images with your
-                    revised prompt.
-                "
+                info="https://docs.google.com/document/d/1wGV7vjCpFByhxa4fhYFYrJHK9V6k33iwILpjY-1Zqss/edit?usp=drive_link"
             />
             <div className="interface-body" id="agonistic-interface-body">
                 <div className="prompt-entry">

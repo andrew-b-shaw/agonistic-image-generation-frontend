@@ -77,14 +77,7 @@ export default function Page({}) {
             <Header
                 title="Interface C"
                 authenticationKey={key}
-                info="
-                    Type an image generation prompt into the prompt entry box at the top of the page,
-                    then press enter or click the button. The application will generate suggestions
-                    to help you reformulate your prompt by adding detail. You can continue to
-                    modify these suggestions in the prompt entry box after accepting them. Once you
-                    have explored the suggestions, click 'Generate Images' to generate images with your
-                    revised prompt.
-                "
+                info="https://docs.google.com/document/d/1MH6uhnPtBZChNb-ecBQPF_JHUKQnz2L0wmBr2QWivms/edit?usp=drive_link"
             />
             <div className="interface-body" id="reformulation-interface-body">
                 <Stack direction='row' sx={{position: 'relative'}}>

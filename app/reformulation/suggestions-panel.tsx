@@ -25,7 +25,7 @@ export default function SuggestionsPanel(props: SPProps) {
                 </Typography>
                 <InfoTooltip
                     sx={{position: 'absolute', right: '30px'}}
-                    info="Your prompt may contain ambiguity or unconscious bias. Reformulate your prompt with the help of AI below. You can choose to keep your prompt as is or edit the suggestions in the text box above after clicking them."
+                    info="Explore AI-generated suggestions to reformulate your prompt below. You can choose to keep your prompt as is or edit the suggestions in the text box above after clicking them."
                 />
             </Stack>
             {props.suggestions.length > 0 &&

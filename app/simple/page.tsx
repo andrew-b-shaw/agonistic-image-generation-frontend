@@ -48,10 +48,7 @@ export default function Page({}) {
             <Header
                 title="Interface A"
                 authenticationKey={key}
-                info="
-                    Type an image generation prompt into the prompt entry box at the top of the page,
-                    then press enter or click the button to generate images.
-                "
+                info="https://docs.google.com/document/d/1SRjnV5nWdHEd-IpL0hoKYqUnfXjWOgAuW6xipZbftRQ/edit?usp=drive_link"
             />
             <div className="interface-body" id="simple-interface-body">
                 <TextEntryField
