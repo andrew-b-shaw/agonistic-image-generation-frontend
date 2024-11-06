@@ -91,14 +91,14 @@ export default function Page({}) {
                         multiline
                     />
                     <div style={{width: '200px'}}/>
-                    <Button
-                        variant='contained'
-                        onClick={handleGenerate}
-                        disabled={prompt === ""}
-                        sx={{height: "56px", top: "50%", position: 'absolute', right: 0, transform: "translateY(-50%)"}}
-                    >
-                        Generate Images
-                    </Button>
+                    {/*<Button*/}
+                    {/*    variant='contained'*/}
+                    {/*    onClick={handleGenerate}*/}
+                    {/*    disabled={prompt === ""}*/}
+                    {/*    sx={{height: "56px", top: "50%", position: 'absolute', right: 0, transform: "translateY(-50%)"}}*/}
+                    {/*>*/}
+                    {/*    Generate Images*/}
+                    {/*</Button>*/}
                 </Stack>
 
                 <div id="reformulation-interface-grid">
@@ -108,6 +108,19 @@ export default function Page({}) {
                                 suggestions={suggestions.length > 0 ? suggestions : []}
                                 onAccept={handleSuggestionAccept}
                             />
+                            <Button
+                                variant='contained'
+                                onClick={handleGenerate}
+                                disabled={prompt == ""}
+                                sx={{
+                                    position: 'absolute',
+                                    bottom: '30px',
+                                    left: '50%',
+                                    transform: 'translate(-50%, 0)'
+                                }}
+                            >
+                                Generate Images
+                            </Button>
                             <LoadingPanel show={suggestionsLoading}/>
                         </div>
                     </div>
