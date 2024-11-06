@@ -87,10 +87,10 @@ export default function Page({}) {
                         onAccept={handlePromptAccept}
                         tooltip="Reformulate"
                         value={prompt}
-                        sx={{width: 1, mr: "5px"}}
+                        sx={{width: 1}}
                         multiline
                     />
-                    <div style={{width: '200px'}}/>
+                    {/*<div style={{width: '200px'}}/>*/}
                     {/*<Button*/}
                     {/*    variant='contained'*/}
                     {/*    onClick={handleGenerate}*/}
