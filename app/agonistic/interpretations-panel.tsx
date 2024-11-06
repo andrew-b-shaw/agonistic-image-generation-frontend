@@ -73,12 +73,12 @@ export default function InterpretationsPanel(props: IPProps) {
                             <Typography variant='body1' color='text.secondary'>
                                 {suggestion.justification.toUpperCase().charAt(0) +
                                     suggestion.justification.substring(1) +
-                                    (suggestion.justification.charAt(suggestion.justification.length - 1) === '.' ? "" : ".")
+                                    (suggestion.justification.charAt(suggestion.justification.length - 1) === '.' ? "" : ". ")
                                     // + " This interpretation is unique because it " + suggestion.unique +
                                     // (suggestion.unique.charAt(suggestion.unique.length - 1) === '.' ? "" : ".")
                                 }
                                 <Link onClick={() => handleOpenSource(suggestion)}>
-                                    {" (Source: " + suggestion.source + ")"}
+                                    {"(Source: " + suggestion.source + ")"}
                                 </Link>
                             </Typography>
                             <Button
