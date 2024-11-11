@@ -28,7 +28,7 @@ export default function Page({}) {
     const [imagesLoading, setImagesLoading] = useState<boolean>(false);
 
     let handlePromptAccept = async (text: string) => {
-        let mentalImage: string = prompt("Enter your current mental image of the prompt (or press Enter to skip):");
+        let mentalImage: string | null = prompt("Enter your current mental image of the prompt (or press Enter to skip):");
 
         setimagePrompt(text);
         setFocus("");
@@ -40,7 +40,7 @@ export default function Page({}) {
         let formData = new FormData();
         formData.append("prompt", text);
         formData.append("key", key != null ? key : "");
-        formData.append("mental_image", mentalImage)
+        formData.append("mental_image", mentalImage != null ? mentalImage : "");
 
         try {
             let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/negotiate", {
