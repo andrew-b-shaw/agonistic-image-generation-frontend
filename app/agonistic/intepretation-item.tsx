@@ -47,8 +47,8 @@ export default function InterpretationItem(props: IIProps) {
                     <Typography variant='body2' color='text.secondary' sx={{'pt': '10px'}}>Source: {props.interpretation.source}</Typography>
                     {
                         props.interpretation.confrontation === "high" &&
-                        <Tooltip title="Suggested" sx={{position: 'absolute', right: "5px", top: "5px", color: "red"}}>
-                            <PriorityHighIcon/>
+                        <Tooltip title="Suggested" sx={{position: 'absolute', right: "10px", top: "10px", color: "red"}}>
+                            <PriorityHighIcon fontSize='large'/>
                         </Tooltip>
                     }
 
