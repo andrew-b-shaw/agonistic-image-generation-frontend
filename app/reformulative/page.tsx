@@ -7,11 +7,11 @@ import Header from "../header";
 import ImageGrid from "../image-grid";
 import LoadingPanel from "../loading-panel"
 import {theme} from "../theme";
-import "./reformulation.css"
+import "./reformulative.css"
 
 import {Button, Stack, ThemeProvider} from "@mui/material";
 import {useSearchParams} from "next/navigation";
-import Suggestion from "@/app/reformulation/Suggestion";
+import Suggestion from "@/app/reformulative/Suggestion";
 
 
 export default function Page({}) {

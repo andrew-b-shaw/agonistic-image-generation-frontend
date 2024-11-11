@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import InfoTooltip from "@/app/info-tooltip";
 import {Button, Stack, Paper, Divider, ButtonBase, Typography} from "@mui/material";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
-import Suggestion from "@/app/reformulation/Suggestion";
+import Suggestion from "@/app/reformulative/Suggestion";
 
 
 interface SPProps {

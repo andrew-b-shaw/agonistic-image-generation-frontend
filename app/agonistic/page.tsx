@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import Note from "./note";
 import Interpretation from "./interpretation";
 import Header from "../header";
@@ -19,7 +19,7 @@ import {useSearchParams} from "next/navigation";
 export default function Page({}) {
     const searchParams = useSearchParams();
     const key: string | null = searchParams.get('key');
-    const [prompt, setPrompt] = useState<string>("");
+    const [imagePrompt, setimagePrompt] = useState<string>("");
     const [focus, setFocus] = useState<string>("");
     const [notes, setNotes] = useState<{[k: string]: Note}>({});
     const [suggestions, setSuggestions] = useState<{[k: string]: Interpretation[]}>({});
@@ -28,18 +28,25 @@ export default function Page({}) {
     const [imagesLoading, setImagesLoading] = useState<boolean>(false);
 
     let handlePromptAccept = async (text: string) => {
-        setPrompt(text);
+        let mentalImage: string = prompt("Enter your current mental image of the prompt (or press Enter to skip):");
+
+        setimagePrompt(text);
         setFocus("");
         setNotes({});
         setSuggestions({});
         setImages([]);
         setNotesLoading("Interpreting");
 
+        let formData = new FormData();
+        formData.append("prompt", text);
+        formData.append("key", key != null ? key : "");
+        formData.append("mental_image", mentalImage)
+
         try {
-            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/negotiate?" +
-                "prompt=" + text +
-                "&key=" + key
-            );
+            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/negotiate", {
+                method: 'POST',
+                body: formData
+            });
 
             if (!response.ok) {
                 alert("Error fetching response! " + await response.text());
@@ -102,7 +109,7 @@ export default function Page({}) {
         setImagesLoading(true);
 
         let formData = new FormData();
-        formData.append("prompt", prompt);
+        formData.append("prompt", imagePrompt);
         formData.append("notes", JSON.stringify(notes));
         formData.append("key", key != null ? key : "");
 
@@ -153,7 +160,7 @@ export default function Page({}) {
                             <Button
                                 variant='contained'
                                 onClick={handleGenerate}
-                                disabled={prompt == ""}
+                                disabled={imagePrompt == ""}
                                 sx={{
                                     position: 'absolute',
                                     bottom: '30px',
@@ -188,7 +195,7 @@ export default function Page({}) {
 
                     <div id="images-grid-item">
                         <div id="images-container">
-                            <ImageGrid images={images} prompt={prompt}/>
+                            <ImageGrid images={images} prompt={imagePrompt}/>
                             <LoadingPanel show={imagesLoading}/>
                         </div>
                     </div>
