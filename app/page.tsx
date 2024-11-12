@@ -39,7 +39,7 @@ export default function Page({}) {
             <div style={{position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)"}}>
                 <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/simple" + authentication} size='large'>Interface A</Button>
                 <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/diverse" + authentication} size='large'>Interface B</Button>
-                <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/reformulation" + authentication} size='large'>Interface C</Button>
+                <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/reformulative" + authentication} size='large'>Interface C</Button>
                 <Button href={process.env.NEXT_PUBLIC_FRONTEND_PATH + "/agonistic" + authentication} size='large'>Interface D</Button>
             </div>
         </ThemeProvider>
