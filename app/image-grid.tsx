@@ -30,7 +30,8 @@ export default function ImageGrid(props: ImageGridProps) {
                     transform: 'translate(-50%, -50%)',
                     textAlign: 'center',
                     width: '200px',
-                    background: 'rgba(255, 255, 255, 0.75)'
+                    background: 'rgba(255, 255, 255, 0.75)',
+                    color: 'black'
                 }}
             >
                 Generated images will appear here
