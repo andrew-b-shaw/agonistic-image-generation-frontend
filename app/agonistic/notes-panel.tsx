@@ -18,7 +18,7 @@ interface NotesProps {
 export default function NotesPanel(props: NotesProps) {
     return (
         <div id="notes-panel">
-            <Stack direction='row' sx={{mb: '20px'}}>
+            <Stack direction='row' sx={{mb: '20px'}} id="notecards-container">
                 <Typography variant='h4'>
                     Detected Subjects
                 </Typography>
