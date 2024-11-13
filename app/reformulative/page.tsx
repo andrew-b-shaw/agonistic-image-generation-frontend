@@ -18,36 +18,41 @@ export default function Page({}) {
     const searchParams = useSearchParams();
     const key: string | null = searchParams.get('key');
     const [prompt, setPrompt] = useState<string>("");
+    const [finalPrompt, setFinalPrompt] = useState<string>("");
     const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
     const [images, setImages] = useState<string[]>([]);
     const [imagesLoading, setImagesLoading] = useState<boolean>(false);
     const [suggestionsLoading, setSuggestionsLoading] = useState<boolean>(false);
 
     const handlePromptAccept = async (text: string) => {
-        setImages([]);
-        setPrompt(text);
-        setSuggestionsLoading(true);
+        if (finalPrompt === "" || confirm("Are you sure you want to reformulate your prompt? To generate images, click the Generate Images button at the bottom of the page.")) {
+            setImages([]);
+            setSuggestions([]);
+            setFinalPrompt(text);
+            setSuggestionsLoading(true);
 
-        try {
-            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/suggest?" +
-                "prompt=" + text +
-                "&key=" + key
-            );
-            if (!response.ok) {
-                alert("Error fetching response! " + await response.text());
-                return;
+            try {
+                let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/suggest?" +
+                    "prompt=" + text +
+                    "&key=" + key
+                );
+                if (!response.ok) {
+                    alert("Error fetching response! " + await response.text());
+                    return;
+                }
+                let suggestions: Suggestion[] = await response.json();
+                setSuggestions(suggestions);
+            } catch (e: any) {
+                alert("Error fetching response! " + e.toString());
+            } finally {
+                setSuggestionsLoading(false);
             }
-            let suggestions: Suggestion[] = await response.json();
-            setSuggestions(suggestions);
-        } catch (e: any) {
-            alert("Error fetching response! " + e.toString());
-        } finally {
-            setSuggestionsLoading(false);
         }
     }
 
     const handleSuggestionAccept = (text: string) => {
         setPrompt(text);
+        setFinalPrompt(text);
     }
 
     const handleGenerate = async () => {
@@ -56,7 +61,7 @@ export default function Page({}) {
 
         try {
             let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/simple-generate?" +
-                "prompt=" + prompt +
+                "prompt=" + finalPrompt +
                 "&key=" + key
             );
             if (!response.ok) {
@@ -111,7 +116,7 @@ export default function Page({}) {
                             <Button
                                 variant='contained'
                                 onClick={handleGenerate}
-                                disabled={prompt == ""}
+                                disabled={finalPrompt == ""}
                                 sx={{
                                     position: 'absolute',
                                     bottom: '30px',
@@ -121,13 +126,13 @@ export default function Page({}) {
                             >
                                 Generate Images
                             </Button>
-                            <LoadingPanel show={suggestionsLoading}/>
+                            <LoadingPanel show={suggestionsLoading} progress="Reformulating"/>
                         </div>
                     </div>
 
                     <div id="images-grid-item">
                         <div id="images-container">
-                            <ImageGrid images={images} prompt={prompt}/>
+                            <ImageGrid images={images} prompt={finalPrompt}/>
                             <LoadingPanel show={imagesLoading}/>
                         </div>
                     </div>
