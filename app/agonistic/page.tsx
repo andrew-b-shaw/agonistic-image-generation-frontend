@@ -58,7 +58,7 @@ export default function Page({}) {
             let fullResponse: string = "";
 
             // @ts-ignore
-            for await (let chunk of response.body) {
+            for await (const chunk of response.body) {
                 let chunkDecoded: string = decoder.decode(chunk, {stream: true});
                 fullResponse += chunkDecoded;
                 console.log(fullResponse);

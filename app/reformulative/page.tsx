@@ -61,7 +61,7 @@ export default function Page({}) {
 
         try {
             let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/simple-generate?" +
-                "prompt=" + finalPrompt +
+                "prompt=" + prompt +
                 "&key=" + key
             );
             if (!response.ok) {
