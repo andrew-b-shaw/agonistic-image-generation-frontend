@@ -18,17 +18,17 @@ export default function Page({}) {
     const searchParams = useSearchParams();
     const key: string | null = searchParams.get('key');
     const [prompt, setPrompt] = useState<string>("");
-    const [finalPrompt, setFinalPrompt] = useState<string>("");
+    const [reformulationPrompt, setReformulationPrompt] = useState<string>("");
     const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
     const [images, setImages] = useState<string[]>([]);
     const [imagesLoading, setImagesLoading] = useState<boolean>(false);
     const [suggestionsLoading, setSuggestionsLoading] = useState<boolean>(false);
 
     const handlePromptAccept = async (text: string) => {
-        if (finalPrompt === "" || confirm("Are you sure you want to reformulate your prompt? To generate images, click the Generate Images button at the bottom of the page.")) {
+        if (reformulationPrompt === "" || confirm("Are you sure you want to reformulate your prompt? To generate images, click the Generate Images button at the bottom of the page.")) {
             setImages([]);
             setSuggestions([]);
-            setFinalPrompt(text);
+            setReformulationPrompt(text);
             setSuggestionsLoading(true);
 
             try {
@@ -52,7 +52,7 @@ export default function Page({}) {
 
     const handleSuggestionAccept = (text: string) => {
         setPrompt(text);
-        setFinalPrompt(text);
+        setReformulationPrompt(text);
     }
 
     const handleGenerate = async () => {
@@ -116,7 +116,7 @@ export default function Page({}) {
                             <Button
                                 variant='contained'
                                 onClick={handleGenerate}
-                                disabled={finalPrompt == ""}
+                                disabled={reformulationPrompt == ""}
                                 sx={{
                                     position: 'absolute',
                                     bottom: '30px',
@@ -132,7 +132,7 @@ export default function Page({}) {
 
                     <div id="images-grid-item">
                         <div id="images-container">
-                            <ImageGrid images={images} prompt={finalPrompt}/>
+                            <ImageGrid images={images} prompt={reformulationPrompt}/>
                             <LoadingPanel show={imagesLoading}/>
                         </div>
                     </div>

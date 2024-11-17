@@ -4,16 +4,14 @@ import React, {useState} from "react";
 import Interpretation from "./interpretation";
 import TextEntryField from "../text-entry-field";
 
-import {Typography, Accordion, AccordionSummary, AccordionDetails, Button, Link, IconButton, Divider, Stack, Tooltip} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {Typography, Button, IconButton, Divider, Stack, Tooltip} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import InterpretationItem from "@/app/agonistic/intepretation-item";
 
 interface IPProps {
     phrase: string
     interpretations: Interpretation[]
-    onAccept: (suggestion: string) => any
+    onAccept: (text: string, source: string) => any
     onClose: () => any
 }
 
@@ -71,7 +69,7 @@ export default function InterpretationsPanel(props: IPProps) {
 
             <TextEntryField
                 placeholder="Write your own interpretation or leave it ambiguous!"
-                onAccept={props.onAccept}
+                onAccept={(text: string) => props.onAccept(text, "")}
                 tooltip="Accept"
                 sx={{width: 'calc(100% - 34px)', position: 'absolute', bottom: '10px'}}
             />

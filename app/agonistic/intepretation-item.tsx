@@ -8,7 +8,7 @@ interface IIProps {
     expanded: boolean
     interpretation: Interpretation
     onChange: (event: React.SyntheticEvent, isExpanded: boolean) => any
-    onAccept: (text: string) => any
+    onAccept: (text: string, source: string) => any
 }
 
 export default function InterpretationItem(props: IIProps) {
@@ -64,7 +64,7 @@ export default function InterpretationItem(props: IIProps) {
                     <Link onClick={handleOpenSource}>(Click to See More)</Link>
                 </Typography>
                 <Button
-                    onClick={() => props.onAccept(props.interpretation.text)}
+                    onClick={() => props.onAccept(props.interpretation.text, props.interpretation.source)}
                     disabled={!acceptEnabled}
                     sx={{display: 'block', marginLeft: 'auto', marginRight: 0}}
                 >

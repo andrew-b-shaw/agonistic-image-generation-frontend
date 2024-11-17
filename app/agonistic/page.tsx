@@ -28,67 +28,70 @@ export default function Page({}) {
     const [imagesLoading, setImagesLoading] = useState<boolean>(false);
 
     let handlePromptAccept = async (text: string) => {
-        let mentalImage: string | null = prompt("Enter your current mental image of the prompt (or press Enter to skip):");
+        let mentalImage: string | null = prompt("Enter your mental picture of '" + text + "' below (or press Enter to skip):");
 
-        setimagePrompt(text);
-        setFocus("");
-        setNotes({});
-        setSuggestions({});
-        setImages([]);
-        setNotesLoading("Interpreting");
+        if (imagePrompt === "" || confirm("Are you sure you want to reinterpret your prompt? To generate images, explore possible interpretations of your prompt and click the Generate Images button at the bottom of the page.")) {
+            setimagePrompt(text);
+            setFocus("");
+            setNotes({});
+            setSuggestions({});
+            setImages([]);
+            setNotesLoading("Interpreting");
 
-        let formData = new FormData();
-        formData.append("prompt", text);
-        formData.append("key", key != null ? key : "");
-        formData.append("mental_image", mentalImage != null ? mentalImage : "");
+            let formData = new FormData();
+            formData.append("prompt", text);
+            formData.append("key", key != null ? key : "");
+            formData.append("mental_image", mentalImage != null ? mentalImage : "");
 
-        try {
-            let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/negotiate", {
-                method: 'POST',
-                body: formData
-            });
+            try {
+                let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/negotiate", {
+                    method: 'POST',
+                    body: formData
+                });
 
-            if (!response.ok) {
-                alert("Error fetching response! " + await response.text());
-                return;
-            }
-
-            let notes: {[k: string]: Note} = {}
-            let decoder: TextDecoder = new TextDecoder();
-            let fullResponse: string = "";
-
-            // @ts-ignore
-            for await (const chunk of response.body) {
-                let chunkDecoded: string = decoder.decode(chunk, {stream: true});
-                fullResponse += chunkDecoded;
-                console.log(fullResponse);
-
-                try {
-                    let chunkJson = JSON.parse(fullResponse);
-                    if (chunkJson['result'] != null) {
-                        let suggestions: {[k: string]: Interpretation[]} = chunkJson['result'];
-                        for (let phrase in suggestions) {
-                            notes[phrase] = {
-                                phrase: phrase,
-                                annotation: "",
-                                disabled: false
-                            };
-                        }
-                        setNotes(notes);
-                        setSuggestions(suggestions);
-                    } else {
-                        setNotesLoading(chunkJson['progress']);
-                    }
-                    fullResponse = "";
-                } catch (e) {
-                    console.log("Waiting for next chunk");
+                if (!response.ok) {
+                    alert("Error fetching response! " + await response.text());
+                    return;
                 }
+
+                let notes: {[k: string]: Note} = {}
+                let decoder: TextDecoder = new TextDecoder();
+                let fullResponse: string = "";
+
+                // @ts-ignore
+                for await (const chunk of response.body) {
+                    let chunkDecoded: string = decoder.decode(chunk, {stream: true});
+                    fullResponse += chunkDecoded;
+                    console.log(fullResponse);
+
+                    try {
+                        let chunkJson = JSON.parse(fullResponse);
+                        if (chunkJson['result'] != null) {
+                            let suggestions: {[k: string]: Interpretation[]} = chunkJson['result'];
+                            for (let phrase in suggestions) {
+                                notes[phrase] = {
+                                    phrase: phrase,
+                                    annotation: "",
+                                    disabled: false
+                                };
+                            }
+                            setNotes(notes);
+                            setSuggestions(suggestions);
+                        } else {
+                            setNotesLoading(chunkJson['progress']);
+                        }
+                        fullResponse = "";
+                    } catch (e) {
+                        console.log("Waiting for next chunk");
+                    }
+                }
+            } catch (e: any) {
+                alert("Error fetching response! " + e.toString());
+            } finally {
+                setNotesLoading("");
             }
-        } catch (e: any) {
-            alert("Error fetching response! " + e.toString());
-        } finally {
-            setNotesLoading("");
         }
+
     }
 
     let handleNoteEdit = (phrase: string, annotation: string) => {
@@ -97,9 +100,10 @@ export default function Page({}) {
         setNotes(newNotes);
     }
 
-    let handleSuggestionAccept = async (text: string) => {
+    let handleSuggestionAccept = async (text: string, source: string) => {
         let newNotes = {...notes};
         newNotes[focus].annotation = text;
+        newNotes[focus].source = source;
         setNotes(newNotes);
         setFocus("");
     }
