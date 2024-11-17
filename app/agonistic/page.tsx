@@ -72,7 +72,7 @@ export default function Page({}) {
                                 notes[phrase] = {
                                     phrase: phrase,
                                     annotation: "",
-                                    disabled: false
+                                    source: ""
                                 };
                             }
                             setNotes(notes);
