@@ -1,4 +1,4 @@
-import {Accordion, AccordionDetails, AccordionSummary, Button, Link, Stack, Tooltip, Typography} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Link, Stack, Tooltip, Typography} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import React, {useState} from "react";
@@ -11,12 +11,24 @@ interface IIProps {
     onAccept: (text: string, source: string) => any
 }
 
+const DELAY: number = 3000;
+
 export default function InterpretationItem(props: IIProps) {
     const [acceptEnabled, setAcceptEnabled] = useState<boolean>(false);
+    const [progress, setProgress] = useState<number>(0);
 
     const delayAccept = async () => {
         setAcceptEnabled(false);
-        setTimeout(() => setAcceptEnabled(true), 3000);
+
+        const timer = setInterval(() => {
+            setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 10));
+        }, DELAY / 10);
+
+        setTimeout(() => {
+            clearInterval(timer);
+            setProgress(0);
+            setAcceptEnabled(true);
+        }, DELAY);
     }
 
     const handleChange = (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -63,13 +75,21 @@ export default function InterpretationItem(props: IIProps) {
                     }
                     <Link onClick={handleOpenSource}>(Click to See More)</Link>
                 </Typography>
-                <Button
-                    onClick={() => props.onAccept(props.interpretation.text, props.interpretation.source)}
-                    disabled={!acceptEnabled}
-                    sx={{display: 'block', marginLeft: 'auto', marginRight: 0}}
-                >
-                    Accept
-                </Button>
+
+                <div style={{display: 'flex', margin: "5px 0 0 auto", justifyContent: 'right'}}>
+                    {acceptEnabled && (
+                        <Button
+                            onClick={() => props.onAccept(props.interpretation.text, props.interpretation.source)}
+                            disabled={!acceptEnabled}
+
+                        >
+                            Accept
+                        </Button>
+                    )}
+                    {!acceptEnabled && (
+                        <CircularProgress variant='determinate' value={progress} size={30}/>
+                    )}
+                </div>
             </AccordionDetails>
         </Accordion>
     );

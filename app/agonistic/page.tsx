@@ -102,7 +102,7 @@ export default function Page({}) {
 
     let handleSuggestionAccept = async (text: string, source: string) => {
         let newNotes = {...notes};
-        newNotes[focus].annotation = text;
+        newNotes[focus].annotation = text + " (" + source + ")";
         newNotes[focus].source = source;
         setNotes(newNotes);
         setFocus("");
@@ -174,25 +174,13 @@ export default function Page({}) {
                             >
                                 Generate Images
                             </Button>
-                            <Collapse
-                                orientation='horizontal'
-                                in={focus != ""}
-                                timeout='auto'
-                                sx={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    height: '100%',
-                                    maxWidth: "100%",
-                                    display: 'block'
-                                }}
-                            >
-                                <InterpretationsPanel
-                                    onClose={() => setFocus("")}
-                                    phrase={focus}
-                                    interpretations={focus != "" ? suggestions[focus] : []}
-                                    onAccept={handleSuggestionAccept}
-                                />
-                            </Collapse>
+                            <InterpretationsPanel
+                                open={focus != ""}
+                                onClose={() => setFocus("")}
+                                phrase={focus}
+                                interpretations={focus != "" ? suggestions[focus] : []}
+                                onAccept={handleSuggestionAccept}
+                            />
                             <LoadingPanel show={notesLoading != ""} progress={notesLoading}/>
                         </div>
                     </div>
