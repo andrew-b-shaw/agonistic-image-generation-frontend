@@ -8,8 +8,11 @@ interface InfoTooltipProps {
 }
 
 export default function InfoTooltip(props: InfoTooltipProps) {
+    let sx: any = {...props.sx};
+    sx['color'] = 'black';
+
     return (
-        <Tooltip title={props.info} sx={props.sx}>
+        <Tooltip title={props.info} sx={sx}>
             <InfoOutlinedIcon/>
         </Tooltip>
     );
