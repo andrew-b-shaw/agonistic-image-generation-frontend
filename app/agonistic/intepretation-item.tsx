@@ -21,8 +21,8 @@ export default function InterpretationItem(props: IIProps) {
         setAcceptEnabled(false);
 
         const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 10));
-        }, DELAY / 10);
+            setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 33.4));
+        }, DELAY / 3);
 
         setTimeout(() => {
             clearInterval(timer);
