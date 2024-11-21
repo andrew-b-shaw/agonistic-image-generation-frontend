@@ -22,7 +22,7 @@ export default function InterpretationItem(props: IIProps) {
 
         const timer = setInterval(() => {
             setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 33.4));
-        }, DELAY / 3);
+        }, (DELAY - 200) / 3);
 
         setTimeout(() => {
             clearInterval(timer);
