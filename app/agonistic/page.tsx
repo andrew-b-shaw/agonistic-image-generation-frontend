@@ -140,7 +140,7 @@ export default function Page({}) {
                             <PromptWorkspace
                                 prompt={imagePrompt}
                                 value={annotation}
-                                onEdit={(text) => setImagePrompt(text)}
+                                onEdit={(text) => setAnnotation(text)}
                                 onOpenPanel={() => setPanelOpen(true)}
                                 label="See possible interpretations"
                                 loading={interpretationsLoading != ""}
