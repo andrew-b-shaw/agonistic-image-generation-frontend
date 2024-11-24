@@ -12,7 +12,7 @@ export default function LoadingPanel(props: LoadingProps) {
             <div className="loading-panel" id="notes-loading">
                 <div className="loading-body">
                     {props.progress &&
-                        <Typography variant='subtitle1'>
+                        <Typography variant='subtitle1' color='secondary'>
                             {props.progress}
                         </Typography>
                     }
