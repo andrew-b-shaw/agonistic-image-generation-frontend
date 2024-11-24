@@ -107,7 +107,7 @@ export default function Page({}) {
                                 onOpenPanel={() => setPanelOpen(true)}
                                 onEdit={(text) => setFinalPrompt(text)}
                                 loading={suggestionsLoading}
-                                tooltipTitle="See reformulation suggestions"
+                                label="See reformulation suggestions"
                             />
                             <Button
                                 variant='contained'

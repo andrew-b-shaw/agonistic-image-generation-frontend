@@ -26,8 +26,7 @@ export default function ImageGrid(props: ImageGridProps) {
                 sx={{
                     textAlign: 'center',
                     width: '200px',
-                    background: 'rgba(255, 255, 255, 0.75)',
-                    color: 'black'
+                    background: 'rgba(255, 255, 255, 0.75)'
                 }}
             >
                 Generated images will appear here

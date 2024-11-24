@@ -11,7 +11,7 @@ interface WorkspaceProps {
     value: string
     onOpenPanel: () => any
     onEdit: (annotation: string) => any
-    tooltipTitle: string
+    label: string
     loading: boolean
 }
 
@@ -23,7 +23,7 @@ export default function PromptWorkspace(props: WorkspaceProps) {
                     Prompt Workspace
                 </Typography>
                 {props.value != "" &&
-                    <Tooltip title={props.tooltipTitle}>
+                    <Tooltip title={props.label}>
                         <IconButton
                             onClick={() => props.onOpenPanel()}
                             sx={{position: 'absolute', right: '30px'}}
@@ -49,7 +49,7 @@ export default function PromptWorkspace(props: WorkspaceProps) {
                                 className="center-content"
                             >
                                 <Link onClick={() => props.onOpenPanel()}>
-                                    See Possible Interpretations
+                                    {props.label}
                                     <KeyboardDoubleArrowRightIcon sx={{fontSize: 15, transform: "translate(2px, 2px)"}}/>
                                 </Link>
                             </Typography>

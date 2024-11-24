@@ -39,7 +39,14 @@ export const theme = createTheme({
             color: 'white'
         },
         subtitle1: {
-            fontFamily: '"GeneralSans-Regular"'
+            fontFamily: '"GeneralSans-Regular"',
+            color: 'black'
+        },
+        body1: {
+            color: 'black'
+        },
+        body2: {
+            color: 'black'
         }
     }
 });
