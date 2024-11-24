@@ -45,6 +45,7 @@ export default function Page({}) {
                 }
                 let suggestions: Suggestion[] = await response.json();
                 setSuggestions(suggestions);
+                setPanelOpen(true);
             } catch (e: any) {
                 alert("Error fetching response! " + e.toString());
             } finally {

@@ -67,8 +67,8 @@ export default function Page({}) {
                         let chunkJson = JSON.parse(fullResponse);
                         if (chunkJson['result'] != null) {
                             let interpretations: Interpretation[] = chunkJson['result'];
-                            setAnnotation("");
                             setInterpretations(interpretations);
+                            setPanelOpen(true);
                         } else {
                             setInterpretationsLoading(chunkJson['progress']);
                         }
