@@ -48,7 +48,7 @@ export default function InterpretationsPanel(props: IPProps) {
             <div id="suggestions-panel">
                 <Stack direction='row'>
                     <Typography variant='h5' id="suggestions-panel-heading">
-                        {"Possible Interpretations"}
+                        Possible Interpretations
                     </Typography>
                     <Tooltip title="Close">
                         <IconButton

@@ -40,7 +40,7 @@ export default function SuggestionsPanel(props: SPProps) {
             <div id="suggestions-panel">
                 <Stack direction='row'>
                     <Typography variant='h5' id="suggestions-panel-heading">
-                        {"Possible Interpretations"}
+                        Suggestions
                     </Typography>
                     <Tooltip title="Close">
                         <IconButton
