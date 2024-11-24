@@ -11,25 +11,28 @@ import "./reformulative.css"
 
 import {Button, Stack, ThemeProvider} from "@mui/material";
 import {useSearchParams} from "next/navigation";
-import Suggestion from "@/app/reformulative/Suggestion";
+import Suggestion from "@/app/reformulative/suggestion";
+import PromptWorkspace from "../prompt-workspace";
 
 
 export default function Page({}) {
     const searchParams = useSearchParams();
     const key: string | null = searchParams.get('key');
-    const [prompt, setPrompt] = useState<string>("");
     const [reformulationPrompt, setReformulationPrompt] = useState<string>("");
-    const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+    const [finalPrompt, setFinalPrompt] = useState<string>("");
     const [images, setImages] = useState<string[]>([]);
     const [imagesLoading, setImagesLoading] = useState<boolean>(false);
+    const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
     const [suggestionsLoading, setSuggestionsLoading] = useState<boolean>(false);
+    const [panelOpen, setPanelOpen] = useState<boolean>(false);
 
     const handlePromptAccept = async (text: string) => {
         if (reformulationPrompt === "" || confirm("Are you sure you want to reformulate your prompt? To generate images, click the Generate Images button at the bottom of the page.")) {
+            setReformulationPrompt(text);
             setImages([]);
             setSuggestions([]);
-            setReformulationPrompt(text);
             setSuggestionsLoading(true);
+            setPanelOpen(false);
 
             try {
                 let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/suggest?" +
@@ -51,8 +54,8 @@ export default function Page({}) {
     }
 
     const handleSuggestionAccept = (text: string) => {
-        setPrompt(text);
-        setReformulationPrompt(text);
+        setFinalPrompt(text);
+        setPanelOpen(false);
     }
 
     const handleGenerate = async () => {
@@ -61,7 +64,7 @@ export default function Page({}) {
 
         try {
             let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/simple-generate?" +
-                "prompt=" + prompt +
+                "prompt=" + finalPrompt +
                 "&key=" + key
             );
             if (!response.ok) {
@@ -88,28 +91,27 @@ export default function Page({}) {
                 <Stack direction='row' sx={{position: 'relative'}}>
                     <TextEntryField
                         placeholder="Enter prompt here..."
-                        onChange={(text) =>setPrompt(text)}
+                        onChange={(text) =>setReformulationPrompt(text)}
                         onAccept={handlePromptAccept}
                         tooltip="Reformulate"
-                        value={prompt}
                         sx={{width: 1}}
                         multiline
                     />
-                    {/*<div style={{width: '200px'}}/>*/}
-                    {/*<Button*/}
-                    {/*    variant='contained'*/}
-                    {/*    onClick={handleGenerate}*/}
-                    {/*    disabled={prompt === ""}*/}
-                    {/*    sx={{height: "56px", top: "50%", position: 'absolute', right: 0, transform: "translateY(-50%)"}}*/}
-                    {/*>*/}
-                    {/*    Generate Images*/}
-                    {/*</Button>*/}
                 </Stack>
 
                 <div id="reformulation-interface-grid">
                     <div id="suggestions-grid-item">
                         <div id="suggestions-container">
+                            <PromptWorkspace
+                                prompt={reformulationPrompt}
+                                value={finalPrompt}
+                                onOpenPanel={() => setPanelOpen(true)}
+                                onEdit={(text) => setFinalPrompt(text)}
+                                loading={suggestionsLoading}
+                            />
                             <SuggestionsPanel
+                                open={panelOpen}
+                                onClose={() => setPanelOpen(false)}
                                 suggestions={suggestions.length > 0 ? suggestions : []}
                                 onAccept={handleSuggestionAccept}
                             />

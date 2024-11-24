@@ -10,7 +10,6 @@ import InterpretationItem from "@/app/agonistic/intepretation-item";
 
 interface IPProps {
     open: boolean
-    phrase: string
     interpretations: Interpretation[]
     onAccept: (text: string, source: string) => any
     onClose: () => any
@@ -19,7 +18,6 @@ interface IPProps {
 export default function InterpretationsPanel(props: IPProps) {
     const [expanded, setExpanded] = useState<number | false>(false);
     const [size, setSize] = useState<number>(5);
-
 
     const handleChange = (key: number) => (
         (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -50,7 +48,7 @@ export default function InterpretationsPanel(props: IPProps) {
             <div id="suggestions-panel">
                 <Stack direction='row'>
                     <Typography variant='h5' id="suggestions-panel-heading">
-                        {"Interpretations for '" + props.phrase + "'"}
+                        {"Possible Interpretations"}
                     </Typography>
                     <Tooltip title="Close">
                         <IconButton

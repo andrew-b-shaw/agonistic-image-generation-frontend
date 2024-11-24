@@ -46,6 +46,13 @@
   --paper-color: #F3F4F6;
 }
 
+.center-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .interface-body {
   max-width: var(--max-width);
   margin: 0 auto 0;
@@ -119,6 +126,17 @@
   text-align: center;
   color: white;
   padding: 30px;
+}
+
+.prompt-workspace {
+  height: 90%;
+  padding: 30px;
+}
+
+.prompt-workspace-body {
+  padding: 16px;
+  background: white;
+  height: calc(100% - 50px);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -21,31 +21,6 @@
     border-radius: 5px;
 }
 
-#notes-panel {
-    height: 90%;
-    padding: 30px;
-}
-
-#notecards-container {
-    overflow-y: auto;
-    max-height: 80%;
-}
-
-.notecard {
-    max-width: 360px;
-    margin-bottom: 10px;
-}
-
-.notecard-header {
-    padding: 16px;
-    background: var(--paper-color);
-}
-
-.notecard-body {
-    padding: 16px;
-    background: white;
-}
-
 #suggestions-panel {
     background: var(--paper-color);
     padding: 30px;
@@ -62,7 +37,7 @@
 }
 
 #suggestions-accordion {
-    height: 80%;
+    height: calc(100% - 120px);
     overflow-y: auto;
     margin-top: 20px;
 }

@@ -22,12 +22,8 @@ export default function ImageGrid(props: ImageGridProps) {
             <div className="image-placeholder" style={{gridRow: 2, gridColumn: 2}}/>
             <Typography
                 variant='subtitle1'
+                className="center-content"
                 sx={{
-                    position: 'absolute',
-                    left: '50%',
-                    top: '50%',
-                    margin: 'auto',
-                    transform: 'translate(-50%, -50%)',
                     textAlign: 'center',
                     width: '200px',
                     background: 'rgba(255, 255, 255, 0.75)',

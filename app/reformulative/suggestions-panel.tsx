@@ -1,59 +1,79 @@
 'use client'
 
 import React, {useState} from "react";
-import InfoTooltip from "@/app/info-tooltip";
-import {Button, Stack, Paper, Divider, ButtonBase, Typography} from "@mui/material";
-import NorthEastIcon from "@mui/icons-material/NorthEast";
-import Suggestion from "@/app/reformulative/Suggestion";
+import {Button, Stack, Divider, ButtonBase, Typography, Collapse, Tooltip, IconButton} from "@mui/material";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import CloseIcon from "@mui/icons-material/Close";
+import Suggestion from "./suggestion";
 
 
 interface SPProps {
+    open: boolean
     suggestions: Suggestion[]
     onAccept: (text: string) => any
+    onClose: () => any
 }
 
 
 export default function SuggestionsPanel(props: SPProps) {
-    const [expanded, setExpanded] = useState(false);
-    const [size, setSize] = useState(5);
+    const [size, setSize] = useState<number>(5);
+
+    const handleClose = () => {
+        setSize(5);
+        props.onClose();
+    }
 
     return (
-        <div id="suggestions-panel">
-            <Stack direction='row' sx={{mb: '20px'}}>
-                <Typography variant='h4'>
-                    Suggestions
-                </Typography>
-                <InfoTooltip
-                    sx={{position: 'absolute', right: '30px'}}
-                    info="Explore AI-generated suggestions to reformulate your prompt below. You can choose to keep your prompt as is or edit the suggestions in the text box above after clicking them."
-                />
-            </Stack>
-            {props.suggestions.length > 0 &&
+        <Collapse
+            orientation='horizontal'
+            in={props.open}
+            onExit={() => handleClose()}
+            timeout='auto'
+            sx={{
+                position: 'absolute',
+                top: 0,
+                height: '100%',
+                maxWidth: "100%",
+                display: 'block'
+            }}
+        >
+            <div id="suggestions-panel">
+                <Stack direction='row'>
+                    <Typography variant='h5' id="suggestions-panel-heading">
+                        {"Possible Interpretations"}
+                    </Typography>
+                    <Tooltip title="Close">
+                        <IconButton
+                            onClick={handleClose}
+                            sx={{position: 'absolute', right: '10px'}}
+                        >
+                            <CloseIcon/>
+                        </IconButton>
+                    </Tooltip>
+                </Stack>
+
                 <div id="suggestions-list">
-                    <Paper>
-                        <Stack>
-                            {props.suggestions.slice(0, size).map((suggestion, key) => (
-                                <ButtonBase key={key} onClick={() => props.onAccept(suggestion.text)} sx={{width: 1}}>
-                                    <div className="suggestion">
-                                        <div className="suggestion-body">
-                                            <Stack direction='row'>
-                                                <div className="suggestion-thumbnail-container">
-                                                    <img className="suggestion-thumbnail" src={suggestion.thumbnail} alt=""/>
-                                                </div>
-                                                <div className="suggestion-title-container">
-                                                    <Typography variant='body1' sx={{textAlign: 'left', marginRight: '10px'}}>
-                                                        {suggestion.text}
-                                                    </Typography>
-                                                </div>
-                                                <NorthEastIcon fontSize='small'/>
-                                            </Stack>
+                    <Divider/>
+                    {props.suggestions.slice(0, size).map((suggestion, key) => (
+                        <ButtonBase key={key} onClick={() => props.onAccept(suggestion.text)} sx={{width: 1}}>
+                            <div className="suggestion">
+                                <div className="suggestion-body">
+                                    <Stack direction='row'>
+                                        <div className="suggestion-thumbnail-container">
+                                            <img className="suggestion-thumbnail" src={suggestion.thumbnail} alt=""/>
                                         </div>
-                                        <Divider/>
-                                    </div>
-                                </ButtonBase>
-                            ))}
-                        </Stack>
-                    </Paper>
+                                        <div className="suggestion-title-container">
+                                            <Typography variant='body1' sx={{textAlign: 'left', marginRight: '10px'}}>
+                                                {suggestion.text}
+                                            </Typography>
+                                        </div>
+                                        <KeyboardDoubleArrowRightIcon fontSize='small'/>
+                                    </Stack>
+                                </div>
+                                <Divider/>
+                            </div>
+                        </ButtonBase>
+                    ))}
                     <Button
                         onClick={() => setSize(size + 5)}
                         disabled={size >= props.suggestions.length}
@@ -61,7 +81,7 @@ export default function SuggestionsPanel(props: SPProps) {
                         See More
                     </Button>
                 </div>
-            }
-        </div>
+            </div>
+        </Collapse>
     );
 }
