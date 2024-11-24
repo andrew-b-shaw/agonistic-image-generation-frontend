@@ -35,13 +35,13 @@
 
 .suggestion-body {
     padding: 10px;
+    background: white;
 }
 
 #suggestions-list {
-    height: calc(100% - 120px);
+    height: calc(100% - 50px);
     overflow-y: auto;
     margin-top: 20px;
-    background: white;
 }
 
 #images-grid-item {

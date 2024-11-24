@@ -109,12 +109,6 @@ export default function Page({}) {
                                 loading={suggestionsLoading}
                                 tooltipTitle="See reformulation suggestions"
                             />
-                            <SuggestionsPanel
-                                open={panelOpen}
-                                onClose={() => setPanelOpen(false)}
-                                suggestions={suggestions.length > 0 ? suggestions : []}
-                                onAccept={handleSuggestionAccept}
-                            />
                             <Button
                                 variant='contained'
                                 onClick={handleGenerate}
@@ -128,6 +122,12 @@ export default function Page({}) {
                             >
                                 Generate Images
                             </Button>
+                            <SuggestionsPanel
+                                open={panelOpen}
+                                onClose={() => setPanelOpen(false)}
+                                suggestions={suggestions.length > 0 ? suggestions : []}
+                                onAccept={handleSuggestionAccept}
+                            />
                             <LoadingPanel show={suggestionsLoading} progress="Reformulating"/>
                         </div>
                     </div>
