@@ -142,6 +142,7 @@ export default function Page({}) {
                                 value={annotation}
                                 onEdit={(text) => setImagePrompt(text)}
                                 onOpenPanel={() => setPanelOpen(true)}
+                                tooltipTitle="See possible interpretations"
                                 loading={interpretationsLoading != ""}
                             />
                             <Button

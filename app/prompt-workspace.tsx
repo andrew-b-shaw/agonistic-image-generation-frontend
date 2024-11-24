@@ -11,6 +11,7 @@ interface WorkspaceProps {
     value: string
     onOpenPanel: () => any
     onEdit: (annotation: string) => any
+    tooltipTitle: string
     loading: boolean
 }
 
@@ -22,7 +23,7 @@ export default function PromptWorkspace(props: WorkspaceProps) {
                     Prompt Workspace
                 </Typography>
                 {props.value != "" &&
-                    <Tooltip title="See possible interpretations">
+                    <Tooltip title={props.tooltipTitle}>
                         <IconButton
                             onClick={() => props.onOpenPanel()}
                             sx={{position: 'absolute', right: '30px'}}

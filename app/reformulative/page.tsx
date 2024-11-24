@@ -27,7 +27,7 @@ export default function Page({}) {
     const [panelOpen, setPanelOpen] = useState<boolean>(false);
 
     const handlePromptAccept = async (text: string) => {
-        if (reformulationPrompt === "" || confirm("Are you sure you want to reformulate your prompt? To generate images, click the Generate Images button at the bottom of the page.")) {
+        if (reformulationPrompt == "" || confirm("Are you sure you want to reformulate your prompt? To generate images, click the Generate Images button at the bottom of the page.")) {
             setReformulationPrompt(text);
             setImages([]);
             setSuggestions([]);
@@ -91,7 +91,6 @@ export default function Page({}) {
                 <Stack direction='row' sx={{position: 'relative'}}>
                     <TextEntryField
                         placeholder="Enter prompt here..."
-                        onChange={(text) =>setReformulationPrompt(text)}
                         onAccept={handlePromptAccept}
                         tooltip="Reformulate"
                         sx={{width: 1}}
@@ -108,6 +107,7 @@ export default function Page({}) {
                                 onOpenPanel={() => setPanelOpen(true)}
                                 onEdit={(text) => setFinalPrompt(text)}
                                 loading={suggestionsLoading}
+                                tooltipTitle="See reformulation suggestions"
                             />
                             <SuggestionsPanel
                                 open={panelOpen}
