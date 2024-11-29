@@ -47,6 +47,7 @@ export default function PromptWorkspace(props: WorkspaceProps) {
                             <Typography
                                 variant='button'
                                 className="center-content"
+                                sx={{textAlign: 'center', width: 1}}
                             >
                                 <Link onClick={() => props.onOpenPanel()}>
                                     {props.label}

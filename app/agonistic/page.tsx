@@ -29,8 +29,6 @@ export default function Page({}) {
 
     let handlePromptAccept = async (text: string) => {
         if (imagePrompt === "" || confirm("Are you sure you want to reinterpret your prompt? To generate images, explore possible interpretations of your prompt and click the Generate Images button at the bottom of the page.")) {
-            let mentalImage: string | null = prompt("Enter your mental picture of '" + text + "' below (or press Enter to skip):");
-
             setImagePrompt(text);
             setAnnotation("");
             setInterpretations([]);
@@ -41,7 +39,6 @@ export default function Page({}) {
             let formData = new FormData();
             formData.append("prompt", text);
             formData.append("key", key != null ? key : "");
-            formData.append("mental_image", mentalImage != null ? mentalImage : "");
 
             try {
                 let response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/negotiate", {
@@ -83,7 +80,6 @@ export default function Page({}) {
                 setInterpretationsLoading("");
             }
         }
-
     }
 
     let handleSuggestionAccept = async (description: string, source: string) => {
